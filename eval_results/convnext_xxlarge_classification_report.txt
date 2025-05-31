@@ -1,0 +1,15 @@
+                  precision    recall  f1-score   support
+
+          Basalt       0.70      0.93      0.80        15
+            Clay       0.71      0.67      0.69        15
+    Conglomerate       0.72      0.76      0.74        17
+       Diatomite       0.62      0.70      0.65        23
+Shale-(Mudstone)       0.93      0.64      0.76        22
+Siliceous-sinter       0.88      0.88      0.88        16
+           chert       0.68      0.87      0.76        15
+          gypsum       1.00      0.93      0.96        27
+  olivine-basalt       1.00      0.88      0.93        24
+
+        accuracy                           0.80       174
+       macro avg       0.80      0.80      0.80       174
+    weighted avg       0.82      0.80      0.81       174

@@ -1,0 +1,16 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Checkpoints and model weights
+checkpoints/
+*.pth
+
+
+
+# Data and intermediate data
+clustered_data/
+data/
+data.zip
+
+
