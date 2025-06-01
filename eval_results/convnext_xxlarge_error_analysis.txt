@@ -1,9 +1,13 @@
 Error Analysis Report
 ==================================================
 
+Image: Basalt-rock78_rock_0_jpg.rf.f7b32246caae677976114daad35ffd1c.jpg
+True class: Basalt
+Predicted class: olivine-basalt
+------------------------------
 Image: images475_rock_0_jpg.rf.93263057e1c1768780d49977ebd24322.jpg
 True class: Basalt
-Predicted class: Diatomite
+Predicted class: Clay
 ------------------------------
 Image: images174_jpg.rf.b572489d702cb5632b9366ea8dd48fd0.jpg
 True class: Clay
@@ -47,7 +51,7 @@ Predicted class: Shale-(Mudstone)
 ------------------------------
 Image: images60_jpg.rf.0101ed976a67ab6aeb05cf9e1731be64.jpg
 True class: Diatomite
-Predicted class: Siliceous-sinter
+Predicted class: gypsum
 ------------------------------
 Image: 5-Figure4-1_rock_1_jpg.rf.6f3070ea123dd07585d4903f86b84671.jpg
 True class: Diatomite
@@ -87,7 +91,7 @@ Predicted class: Clay
 ------------------------------
 Image: Shale-Mudstone-72_rock_0_jpg.rf.2913861cd1e00366f99b83c221254a16.jpg
 True class: Shale-(Mudstone)
-Predicted class: Basalt
+Predicted class: olivine-basalt
 ------------------------------
 Image: mudstone3_jpg.rf.4235944c0121ced5b4b02096e35d3e88.jpg
 True class: Shale-(Mudstone)
@@ -119,7 +123,11 @@ Predicted class: Diatomite
 ------------------------------
 Image: GypsumArticle_Figure1_rock_1_jpg.rf.f3e2e2c98ad9c80277ff5495143ebfa7.jpg
 True class: gypsum
-Predicted class: Basalt
+Predicted class: Siliceous-sinter
+------------------------------
+Image: images20_rock_0_jpg.rf.112eb10be4b94b1847a12834778398b0.jpg
+True class: gypsum
+Predicted class: Conglomerate
 ------------------------------
 Image: images136_jpg.rf.a8e33d2a46828b327826551b235152eb.jpg
 True class: gypsum
@@ -128,12 +136,4 @@ Predicted class: Diatomite
 Image: olivine-basalt-rock108_jpg.rf.7e9c5664eda75e06869e75fa003b0dd8.jpg
 True class: olivine-basalt
 Predicted class: Conglomerate
-------------------------------
-Image: 48680331971_a4a2815706_b_rock_0_jpg.rf.994a55f1dfe92386ddc8d8db379ceb00.jpg
-True class: olivine-basalt
-Predicted class: Basalt
-------------------------------
-Image: olivine-basalt-rock11_rock_0_jpg.rf.50ab900a6b24696699b5d78b59510c84.jpg
-True class: olivine-basalt
-Predicted class: Basalt
 ------------------------------

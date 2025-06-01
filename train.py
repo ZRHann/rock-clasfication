@@ -16,7 +16,7 @@ torch.set_float32_matmul_precision('high')
 
 # 配置是否从checkpoint恢复训练
 resume_training = True
-model_name = "eva02_enormous"  # 在这里选择要使用的模型
+model_name = "vit_gigantic"  # 在这里选择要使用的模型
 
 # 超参数
 batch_size = 16
@@ -107,6 +107,7 @@ test_data,  test_labels  = load_images_to_gpu('data/test',  cpu_to_tensor, devic
 # 动态导入模型
 model_module = importlib.import_module(f"models.{model_name}")
 model = model_module.create_model(num_classes=num_classes)
+print(f"Model: {model_name}")
 
 # 打印可训练参数数量
 trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -128,18 +129,18 @@ scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 
 # 恢复训练状态
 start_epoch = 0
-best_accuracy = 0.0
+latest_accuracy = 0.0
 os.makedirs('checkpoints', exist_ok=True)
 os.makedirs('logs', exist_ok=True)
-checkpoint_path = f'checkpoints/{model_module.get_model_name()}_best.pth'
+checkpoint_path = f'checkpoints/{model_module.get_model_name()}_latest.pth'
 
 if resume_training and os.path.exists(checkpoint_path):
     chk = torch.load(checkpoint_path)
     model.load_state_dict(chk['model_state_dict'])
     optimizer.load_state_dict(chk['optimizer_state_dict'])
     start_epoch = chk['epoch'] + 1
-    best_accuracy = chk['best_accuracy']
-    print(f"=> Resumed from epoch {start_epoch}, best acc = {best_accuracy:.2f}%")
+    latest_accuracy = chk.get('latest_accuracy', chk.get('best_accuracy', 0.0))
+    print(f"=> Resumed from epoch {start_epoch}, latest acc = {latest_accuracy:.2f}%")
 
 # --- 训练与验证函数 ---
 def train_one_epoch(epoch):
@@ -193,19 +194,9 @@ def validate(epoch):
             correct_valid += (preds == labels).sum().item()
             total_valid += labels.size(0)
             
-        # 测试集评估
-        for i in range(0, test_data.size(0), batch_size):
-            inputs = test_data[i:i+batch_size]
-            labels = test_labels[i:i+batch_size]
-            inputs = gpu_valid_transforms(inputs)
-            outputs = model(inputs)
-            preds = outputs.argmax(dim=1)
-            correct_test += (preds == labels).sum().item()
-            total_test += labels.size(0)
             
     valid_acc = 100 * correct_valid / total_valid
-    test_acc = 100 * correct_test / total_test
-    print(f"Epoch {epoch}/{num_epochs} - Validation Acc: {valid_acc:.2f}%, Test Acc: {test_acc:.2f}%")
+    print(f"Epoch {epoch}/{num_epochs} - Validation Acc: {valid_acc:.2f}%")
     return valid_acc
 
 csv_path = f'logs/{model_module.get_model_name()}_train_log.csv'
@@ -221,15 +212,15 @@ for epoch in range(start_epoch, num_epochs):
     train_acc, train_loss = train_one_epoch(epoch)
     valid_acc = validate(epoch)
     # 保存最优模型
-    if valid_acc >= best_accuracy:
-        best_accuracy = valid_acc
+    if epoch % 10 == 0:
+        latest_accuracy = valid_acc
         torch.save({
             'epoch': epoch,
             'model_state_dict': model.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
-            'best_accuracy': best_accuracy,
+            'latest_accuracy': latest_accuracy,
         }, checkpoint_path)
-        print(f"=> Saved checkpoint at epoch {epoch}, best acc = {best_accuracy:.2f}%")
+        print(f"=> Saved checkpoint at epoch {epoch}, latest acc = {latest_accuracy:.2f}%")
     
     if epoch % 10 == 0:
         with open(csv_path, mode='a', newline='') as f:

@@ -1,16 +1,16 @@
 All 1599 models by parameter count:
 eva02_enormous_patch14_clip_224.laion2b            | Total: 4350.6M | Trainable: 4350.6M
-eva02_enormous_patch14_clip_224.laion2b_plus       | Total: 4350.6M | Trainable: 4350.6M
+TRAINED eva02_enormous_patch14_clip_224.laion2b_plus       | Total: 4350.6M | Trainable: 4350.6M
 aimv2_3b_patch14_448.apple_pt                      | Total: 2723.0M | Trainable: 2723.0M
 aimv2_3b_patch14_336.apple_pt                      | Total: 2721.6M | Trainable: 2721.6M
-aimv2_3b_patch14_224.apple_pt                      | Total: 2720.7M | Trainable: 2720.7M
+TRAINED aimv2_3b_patch14_224.apple_pt                      | Total: 2720.7M | Trainable: 2720.7M
 vit_gigantic_patch14_clip_224.laion2b              | Total: 1844.9M | Trainable: 1844.9M
 vit_gigantic_patch14_clip_224.metaclip_2pt5b       | Total: 1844.9M | Trainable: 1844.9M
-vit_gigantic_patch14_clip_quickgelu_224.metaclip_2pt5b | Total: 1844.9M | Trainable: 1844.9M
+TRAINED vit_gigantic_patch14_clip_quickgelu_224.metaclip_2pt5b | Total: 1844.9M | Trainable: 1844.9M
 regnety_2560.seer_ft_in1k                          | Total: 1282.6M | Trainable: 1282.6M
 aimv2_1b_patch14_448.apple_pt                      | Total: 1236.5M | Trainable: 1236.5M
 aimv2_1b_patch14_336.apple_pt                      | Total: 1235.6M | Trainable: 1235.6M
-aimv2_1b_patch14_224.apple_pt                      | Total: 1235.0M | Trainable: 1235.0M
+TRAINED aimv2_1b_patch14_224.apple_pt                      | Total: 1235.0M | Trainable: 1235.0M
 vit_giantopt_patch16_siglip_384.v2_webli           | Total: 1163.7M | Trainable: 1163.7M
 vit_giantopt_patch16_siglip_256.v2_webli           | Total: 1163.2M | Trainable: 1163.2M
 vit_giant_patch14_reg4_dinov2.lvd142m              | Total: 1136.5M | Trainable: 1136.5M
@@ -30,7 +30,7 @@ resnetv2_152x4_bit.goog_in21k_ft_in1k              | Total: 936.5M | Trainable: 
 convnext_xxlarge.clip_laion2b_soup_ft_in12k        | Total: 879.7M | Trainable: 879.7M
 convnext_xxlarge.clip_laion2b_rewind               | Total: 846.5M | Trainable: 846.5M
 convnext_xxlarge.clip_laion2b_soup                 | Total: 846.5M | Trainable: 846.5M
-convnext_xxlarge.clip_laion2b_soup_ft_in1k         | Total: 846.5M | Trainable: 846.5M
+TRAINED convnext_xxlarge.clip_laion2b_soup_ft_in1k         | Total: 846.5M | Trainable: 846.5M
 focalnet_huge_fl3.ms_in22k                         | Total: 745.3M | Trainable: 745.3M
 mvitv2_huge_cls.fb_inw21k                          | Total: 694.8M | Trainable: 694.8M
 focalnet_huge_fl4.ms_in22k                         | Total: 686.5M | Trainable: 686.5M

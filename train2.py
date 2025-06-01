@@ -176,15 +176,15 @@ scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 
 # 恢复训练状态
 start_epoch = 0
-best_accuracy = 0.0
+latest_accuracy = 0.0
 checkpoint_path = 'best_checkpoint.pth'
 if resume_training and os.path.exists(checkpoint_path):
     chk = torch.load(checkpoint_path)
     model.load_state_dict(chk['model_state_dict'])
     optimizer.load_state_dict(chk['optimizer_state_dict'])
     start_epoch = chk['epoch'] + 1
-    best_accuracy = chk['best_accuracy']
-    print(f"=> Resumed from epoch {start_epoch}, best acc = {best_accuracy:.2f}%")
+    latest_accuracy = chk['latest_accuracy']
+    print(f"=> Resumed from epoch {start_epoch}, best acc = {latest_accuracy:.2f}%")
 
 # --- 训练与验证函数 ---
 def train_one_epoch(epoch):
@@ -271,15 +271,15 @@ for epoch in range(start_epoch, num_epochs):
     train_acc, train_loss = train_one_epoch(epoch)
     valid_acc = validate(epoch)
     # 保存最优模型
-    if valid_acc > best_accuracy:
-        best_accuracy = valid_acc
+    if valid_acc > latest_accuracy:
+        latest_accuracy = valid_acc
         torch.save({
             'epoch': epoch,
             'model_state_dict': model.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
-            'best_accuracy': best_accuracy,
+            'latest_accuracy': latest_accuracy,
         }, checkpoint_path)
-        print(f"=> Saved checkpoint at epoch {epoch}, best acc = {best_accuracy:.2f}%")
+        print(f"=> Saved checkpoint at epoch {epoch}, best acc = {latest_accuracy:.2f}%")
     
     if epoch % 10 == 0:
         with open(csv_path, mode='a', newline='') as f:

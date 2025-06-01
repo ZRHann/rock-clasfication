@@ -5,17 +5,21 @@ Image: Basalt-rock78_rock_0_jpg.rf.f7b32246caae677976114daad35ffd1c.jpg
 True class: Basalt
 Predicted class: olivine-basalt
 ------------------------------
+Image: images174_jpg.rf.b572489d702cb5632b9366ea8dd48fd0.jpg
+True class: Clay
+Predicted class: Basalt
+------------------------------
 Image: images272_rock_0_jpg.rf.a8fc20f9bb132dd23414e9f74345b3d8.jpg
 True class: Clay
 Predicted class: Basalt
 ------------------------------
+Image: images384_rock_0_jpg.rf.2380509486f83d4242363b588fd74a1b.jpg
+True class: Clay
+Predicted class: Shale-(Mudstone)
+------------------------------
 Image: images61_jpg.rf.8a96d4c81ef048468e1dca8f218d32b5.jpg
 True class: Conglomerate
-Predicted class: Diatomite
-------------------------------
-Image: images101_jpg.rf.11d9bf0a4ed53cfbd45ed92ffb305cc1.jpg
-True class: Conglomerate
-Predicted class: Siliceous-sinter
+Predicted class: chert
 ------------------------------
 Image: images76_jpg.rf.369eedbefb99cb23b4524ebdaa44f739.jpg
 True class: Conglomerate
@@ -29,6 +33,10 @@ Image: images60_jpg.rf.0101ed976a67ab6aeb05cf9e1731be64.jpg
 True class: Diatomite
 Predicted class: gypsum
 ------------------------------
+Image: 5-Figure4-1_rock_1_jpg.rf.6f3070ea123dd07585d4903f86b84671.jpg
+True class: Diatomite
+Predicted class: Siliceous-sinter
+------------------------------
 Image: 721a065af68416021a0a31456481f8af_jpg.rf.f4c9faa7196a0687cb79b97f88ccdbc9.jpg
 True class: Diatomite
 Predicted class: chert
@@ -39,7 +47,7 @@ Predicted class: chert
 ------------------------------
 Image: 00216-16-cm-chert_rock_0_jpg.rf.3848968ce8ee1a24e5dddeb700644530.jpg
 True class: Diatomite
-Predicted class: Clay
+Predicted class: chert
 ------------------------------
 Image: images230_rock_2_jpg.rf.e346fbd3329c833c0351508ecfe4ee62.jpg
 True class: Diatomite
@@ -53,13 +61,17 @@ Image: images144_jpg.rf.4e0ee42425138210b4fa5d6689bd8a29.jpg
 True class: Shale-(Mudstone)
 Predicted class: Conglomerate
 ------------------------------
-Image: 24f4a832b846ebe79e388cd619f863af_rock_0_jpg.rf.90757a8cae2b80341208928e9fd91bcd.jpg
+Image: images423_rock_0_jpg.rf.2ccb4b914e72dee17559cc894bbcfa8b.jpg
 True class: Shale-(Mudstone)
-Predicted class: Clay
+Predicted class: Basalt
 ------------------------------
 Image: Shale-Mudstone-72_rock_0_jpg.rf.2913861cd1e00366f99b83c221254a16.jpg
 True class: Shale-(Mudstone)
 Predicted class: olivine-basalt
+------------------------------
+Image: images198_jpg.rf.a6cf862b3130b829361a417bdb9e314b.jpg
+True class: Shale-(Mudstone)
+Predicted class: Diatomite
 ------------------------------
 Image: images346_jpg.rf.e3d75aa59ce4424593aadd85f0cf9a7e.jpg
 True class: Shale-(Mudstone)
@@ -77,10 +89,6 @@ Image: images228_jpg.rf.ac68763e5245d6a8030ad45d15d1015d.jpg
 True class: Shale-(Mudstone)
 Predicted class: Diatomite
 ------------------------------
-Image: images350_jpg.rf.7d87e00f2133080384d6773738e1613e.jpg
-True class: Siliceous-sinter
-Predicted class: chert
-------------------------------
 Image: Si34A20Sinter_large_rock_0_jpg.rf.a0be014a8419e527c90c3c9efe24cc94.jpg
 True class: Siliceous-sinter
 Predicted class: Diatomite
@@ -89,13 +97,21 @@ Image: images174_jpg.rf.025af1d375f01f2012f062a20aa6b137.jpg
 True class: chert
 Predicted class: Shale-(Mudstone)
 ------------------------------
+Image: chertbandedSanMiguelitolgH_D20_jpg.rf.296048738984b73a653fe1289b291b68.jpg
+True class: chert
+Predicted class: gypsum
+------------------------------
 Image: images280_jpg.rf.c750d340c3c73132449982fbe1e84bf0.jpg
 True class: chert
 Predicted class: Diatomite
 ------------------------------
 Image: images358_jpg.rf.835d9484d62d7b62f864a3c9babc1103.jpg
 True class: chert
-Predicted class: Diatomite
+Predicted class: gypsum
+------------------------------
+Image: images217_rock_0_jpg.rf.d9e363b6e842bbf493a4619e929f977f.jpg
+True class: chert
+Predicted class: gypsum
 ------------------------------
 Image: images268_jpg.rf.d7e9fe3076daed13c131e57cb85ae544.jpg
 True class: chert
@@ -103,13 +119,21 @@ Predicted class: Clay
 ------------------------------
 Image: images315_rock_0_jpg.rf.4337049d35ad2a1b292b71604f390181.jpg
 True class: chert
-Predicted class: Diatomite
+Predicted class: Clay
 ------------------------------
 Image: images160_jpg.rf.df5085160d28e19b65fe64b579e5721a.jpg
 True class: gypsum
 Predicted class: olivine-basalt
 ------------------------------
+Image: images20_rock_0_jpg.rf.112eb10be4b94b1847a12834778398b0.jpg
+True class: gypsum
+Predicted class: Conglomerate
+------------------------------
 Image: olivine-basalt-rock108_jpg.rf.7e9c5664eda75e06869e75fa003b0dd8.jpg
 True class: olivine-basalt
 Predicted class: Clay
+------------------------------
+Image: 48680331971_a4a2815706_b_rock_0_jpg.rf.994a55f1dfe92386ddc8d8db379ceb00.jpg
+True class: olivine-basalt
+Predicted class: Basalt
 ------------------------------

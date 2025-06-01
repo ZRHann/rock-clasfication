@@ -17,7 +17,13 @@ model_configs = [
     {'name': 'convnext_large', 'weight': 1},
     {'name': 'coatnet_3', 'weight': 1},
     {'name': 'efficientnet_b5', 'weight': 1.1}, 
-    {'name': 'convnext_xxlarge', 'weight': 10}
+    {'name': 'convnext_xxlarge', 'weight': 10}, 
+    {'name': 'eva02_enormous', 'weight': 30000}, 
+    {'name': 'aimv2_1b', 'weight': 15}, 
+    {'name': 'aimv2_3b', 'weight': 10}, 
+    {'name': 'vit_gigantic', 'weight': 10}, 
+    
+    
 ]
 
 
@@ -99,6 +105,12 @@ def save_error_analysis(predictions, labels, img_paths, idx_to_class, save_path)
                 f.write(f"Predicted class: {idx_to_class[pred]}\n")
                 f.write("-" * 30 + "\n")
 
+def get_model_param_count(model, model_name):
+    """打印模型参数量"""
+    total = sum(p.numel() for p in model.parameters())
+    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    return total, trainable
+
 class EnsembleModel:
     def __init__(self, model_configs, device):
         """
@@ -114,6 +126,7 @@ class EnsembleModel:
         weights = []
         
         # 加载每个模型
+        print("\n========== Loading models and parameter counts ==========")
         for config in model_configs:
             name = config['name']
             self.model_names.append(name)
@@ -123,14 +136,15 @@ class EnsembleModel:
             try:
                 model, _ = load_model_from_file(model_file)
                 # 加载检查点
-                checkpoint_path = f'checkpoints/{name}_best.pth'
+                checkpoint_path = f'checkpoints/{name}.pth'
                 model = load_checkpoint(model, checkpoint_path)
                 model = model.to(device)
                 self.models.append(model)
                 weights.append(config.get('weight', 1.0))  # 如果没有设置权重，默认为1.0
-                print(f"Successfully loaded model: {name}")
+                get_model_param_count(model, name)
+                print(f"    -> Loaded successfully: {name}")
             except Exception as e:
-                print(f"Failed to load model {name}: {str(e)}")
+                print(f"    -> Failed to load: {name}: {str(e)}")
                 raise e
             
         # 确保权重和为1
@@ -143,16 +157,19 @@ class EnsembleModel:
             
     def predict(self, x):
         predictions = []
-        # 获取每个模型的预测
+        # 获取每个模型的logits（不进行softmax）
         for model in self.models:
             with torch.no_grad():
-                pred = model(x)
-                predictions.append(torch.softmax(pred, dim=1))
+                pred = model(x)  # 保持原始logits
+                predictions.append(pred)
         
-        # 加权集成
+        # 对logits进行加权集成
         predictions = torch.stack(predictions)  # [num_models, batch_size, num_classes]
-        weighted_preds = predictions * self.weights.view(-1, 1, 1)  # 广播权重到每个预测
-        ensemble_pred = weighted_preds.sum(dim=0)  # [batch_size, num_classes]
+        weighted_preds = predictions * self.weights.view(-1, 1, 1)  # 在logits空间加权
+        ensemble_logits = weighted_preds.sum(dim=0)  # [batch_size, num_classes]
+        
+        # 最后统一进行softmax
+        ensemble_pred = torch.softmax(ensemble_logits, dim=1)
         return ensemble_pred
 
 def evaluate_model(model, data, labels, transforms, device, batch_size=32):
@@ -186,7 +203,6 @@ def evaluate_model(model, data, labels, transforms, device, batch_size=32):
 def main():
     # 设置设备
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"Using device: {device}")
     
     # 创建结果目录
     os.makedirs('eval_results', exist_ok=True)
@@ -211,19 +227,22 @@ def main():
     
     
     # 创建和评估集成模型
-    print("\nEvaluating ensemble model:")
     ensemble = EnsembleModel(model_configs, device)
     ensemble.eval()
     
     # 评估每个单独的模型
-    print("\nEvaluating individual models:")
+    print("\n========== Evaluating individual models ==========")
     individual_results = {}
+    model_param_info = {}
     for model, model_name in zip(ensemble.models, ensemble.model_names):
-        print(f"\nEvaluating {model_name}...")
+        print(f"\n--- Evaluating model: {model_name} ---")
+        total, trainable = get_model_param_count(model, model_name)
+        print(f"  {model_name:25s} | Total params: {total/1e6:.2f}M | Trainable: {trainable/1e6:.2f}M")
         accuracy, pred_labels, true_labels = evaluate_model(
             model, test_data, test_labels, gpu_transform, device
         )
         individual_results[model_name] = accuracy
+        model_param_info[model_name] = (total, trainable)
         
         # 生成并保存混淆矩阵
         cm = confusion_matrix(true_labels, pred_labels)
@@ -244,11 +263,12 @@ def main():
             idx_to_class, f'eval_results/{model_name}_error_analysis.txt'
         )
         
-        print(f"{model_name}: {accuracy:.4f}")
+        print(f"Accuracy: {accuracy:.4f}")
     
-    print("\nEnsemble Model Weights:")
+    print("\n========== Evaluating ensemble model ==========")
+    print("Ensemble Model Weights:")
     for name, weight in zip(ensemble.model_names, ensemble.weights.cpu().numpy()):
-        print(f"{name}: {weight:.4f}")
+        print(f"  {name:25s}: {weight:.4f}")
     print()
     
     all_ensemble_preds = []
@@ -288,15 +308,17 @@ def main():
     )
     
     # 打印最终结果
-    print("\nFinal Results:")
-    print("=" * 50)
+    print("\n========== Final Results ==========")
     for model_name, acc in individual_results.items():
-        print(f"{model_name}: {acc:.4f}")
-    print("-" * 50)
-    print(f"Ensemble Model: {ensemble_accuracy:.4f}")
-    print("=" * 50)
+        total, trainable = model_param_info[model_name]
+        idx = ensemble.model_names.index(model_name)
+        weight = float(ensemble.weights[idx])
+        print(f"{model_name:25s}: {acc:.4f} | Total: {total/1e6:.2f}M | Trainable: {trainable/1e6:.2f}M | Weight: {weight:.4f}")
+    print("-" * 40)
+    print(f"Ensemble Model Accuracy: {ensemble_accuracy:.4f}")
+    print("==================================\n")
     
-    print("\nEvaluation results have been saved to 'eval_results' directory")
+    print("Evaluation results have been saved to 'eval_results' directory\n")
 
 if __name__ == "__main__":
     main() 
