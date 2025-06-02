@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import glob
 from pathlib import Path
+import matplotlib.cm as cm
+import numpy as np
 
 def plot_training_logs():
     """从logs目录读取训练日志并绘制图表"""
@@ -65,11 +67,16 @@ def plot_training_logs():
     
     # 2. 训练vs验证准确率对比（所有模型）
     ax2 = axes[1]
-    for model_name, df in all_data.items():
+    # 为每个模型分配唯一颜色
+    color_map = cm.get_cmap('tab20', len(all_data))
+    model_colors = {model_name: color_map(i) for i, model_name in enumerate(all_data.keys())}
+    
+    for idx, (model_name, df) in enumerate(all_data.items()):
+        color = model_colors[model_name]
         ax2.plot(df['Epoch'], df['Train_Accuracy'], label=f'{model_name} (Train)', 
-                linewidth=2, marker='o', markersize=2, linestyle='-')
+                linewidth=2, marker='o', markersize=2, linestyle='-', color=color)
         ax2.plot(df['Epoch'], df['Validation_Accuracy'], label=f'{model_name} (Val)', 
-                linewidth=2, marker='^', markersize=2, linestyle='--')
+                linewidth=2, marker='^', markersize=2, linestyle='--', color=color)
     ax2.set_title('Training vs Validation Accuracy', fontsize=14, fontweight='bold')
     ax2.set_xlabel('Epoch')
     ax2.set_ylabel('Accuracy (%)')
